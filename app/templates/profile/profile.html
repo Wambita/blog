@@ -1,0 +1,41 @@
+{% extends 'base.html'%} {% block content %}
+<article class="single-page">
+  <div class="container-fluid">
+    <a href="/post/new" class="btn btn-success">New Blog</a>
+    <div class="row entry-content my-4">
+      <div class="col-md-6">
+        {% if user.profile_pic_path%}
+        <p>
+          <img
+            class="img-fluid center-block"
+            src="{{url_for('static',filename=user.profile_pic_path)}}"
+            alt="image-alternative"
+          />
+        </p>
+        {% else %}
+        <p>No profile picture</p>
+        {% endif %} {% if user == current_user %}
+        <form
+          action="{{url_for('main.update_pic',user_id=user.id)}}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="file" name="photo" class="form-control" required />
+          <input class="btn btn-submit mt-2" type="submit" />
+        </form>
+        <a href="{{url_for('main.update_profile',user_id=user.id)}}"
+          >Edit profile</a
+        >
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <p>{{ user.bio }}</p>
+        <p>&nbsp;</p>
+        <p class="text-center signature">
+          {{ user.firstname }} {{ user.lastname }}
+        </p>
+      </div>
+    </div>
+  </div>
+</article>
+{% endblock %}
