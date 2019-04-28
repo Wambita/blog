@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% import 'bootstrap/wtf.html' as wtf%} {% block
+    content %}
+    <article class="single-post">
+      <div class="container">
+        <div class="row meta">
+          <div class="col-md-12">
+            <ul class="list-inline meta text-center">
+              <li class="list-inline-item">
+                by
+                <a href="#" class="author-name"
+                  >{{ post.user.firstname }} {{ post.user.lastname }}</a
+                >
+              </li>
+              <li class="list-inline-item">{{ post.posted.strftime("%Y-%m-%d") }}</li>
+              <li class="list-inline-item">
+                {{ comments | length }} {% if comments| length == 1%}
+                    Comment
+                {% else%}
+                    Comments
+                {% endif %}
+              </li>
+            </ul>
+            <h1 class="text-center single-title">{{ post.post_title }}</h1>
+          </div>
+        </div>
+        <div class="row featured-image">
+          <div class="col-md-12">
+            <img
+              class="img-fluid"
+              src="/static/{{post.photo_path}}"
+              alt="image-alternative"
+            />
+          </div>
+        </div>
+        <div class="row entry-content">
+          <div class="col-md-3 single-post-left-sidebar"></div>
+          <div class="col-md-6 single-content">
+            <p class="text-justify">{{ post.post_content }}</p>
+            <div class="entry-meta">
+              <p class="post-categories">
+                Posted in: <a href="#">{{ post.category }}</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3 single-post-right-sidebar"></div>
+        </div>
+        <div class="row comments-headline headline">
+          <div class="col-md-push-2 col-sm-6 heading">
+            <h4>Comments ({{ comments | length }})</h4>
+          </div>
+        </div>  
+          <div class="row comments" id="comments">
+              <div class="col-md-8 comment-form-wrapper">
+                  {{wtf.quick_form(comment_form)}}
+              </div>
+          </div>
+          <div class="col-md-8 col-md-offset-2 comment-list-wrapper">
+            <div class="comment clearfix">
+              {% if comments%} {% for comment in comments%}
+              <div class="comment-avatar">
+                <img
+                  class="img-fluid"
+                  src="https://html-templates.mypreview.one/dejavu/assets/img/default-avatar.png"
+                  alt="image-alternative"
+                />
+              </div>
+              <div class="comment-content clearfix">
+                <div class="comment-author">
+                  <a href="#"
+                    >{{ comment.user.firstname }} {{ comment.user.lastname }}</a
+                  >
+                </div>
+                <div class="comment-entry">
+                  <p>{{ comment.comment }}</p>
+                </div>
+                <div class="comment-meta">
+                  <span>{{ comment.date.strftime("%Y-%m-%d") }}</span>
+                </div>
+              </div>
+              {% endfor %} {% else %}
+              <h3 class="text-center">No comments to display!</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    {% endblock %}
+    
